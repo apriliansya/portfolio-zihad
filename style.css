@@ -7,10 +7,8 @@
 
 body {
     position: relative;
-    /*height: fit-content;*/
     width: 100%;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
     display: flex;
     padding: 30px 0;
     justify-content: center;
@@ -18,30 +16,21 @@ body {
 }
 
 .back-vid {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     z-index: -1;
-}
-
-@media (max-aspect-ratio: 16/9) {
-    .back-vid {
-        width: auto;
-        height: 100%;
-    }
-}
-
-@media (min-aspect-ratio: 16/9) {
-    .back-vid {
-        width: 100%;
-        height: auto;
-    }
 }
 
 .main-section {
     width: 90%;
     height: 90%;
-    background-color: #4ad0ee1b;
+    background-color: #0e1217; /* Fallback for browsers that don't support backdrop-filter */
+    background-color: rgba(74, 208, 238, 0.1);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-radius: 50px;
     box-shadow: 5px 5px 20px 1px #4acfee;
@@ -82,7 +71,7 @@ nav a {
     text-decoration: none;
     font-size: 20px;
     font-weight: bold;
-    transition: 0.2s;
+    transition: all 0.2s ease-in-out;
     padding: 0 25px;
 }
 
@@ -110,11 +99,13 @@ nav a:hover {
     margin-top: 20px;
     font-size: 30px;
     text-transform: uppercase;
+    color: #4acfee; /* Fallback for browsers not supporting text-fill-color */
     background: linear-gradient(to right, #4acfee, #53f8c9, #6070fd, #5bbdff, #4acfee);
     background-size: 200%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    -webkit-animation: animate-gradient 2.5s linear infinite;
     animation: animate-gradient 2.5s linear infinite;
 }
 
@@ -122,6 +113,12 @@ nav a:hover {
     max-width: 450px;
     margin-top: 7px;
     margin-bottom: 20px;
+}
+
+@-webkit-keyframes animate-gradient {
+    to {
+        background-position: 200%;
+    }
 }
 
 @keyframes animate-gradient {
@@ -146,6 +143,7 @@ nav a:hover {
     color: #0e1217;
     cursor: pointer;
     margin-right: 15px;
+    -webkit-transition: 0.3s;
     transition: 0.3s;
     text-wrap: nowrap;
 }
@@ -175,6 +173,7 @@ nav a:hover {
     color: #4acfee;
     text-decoration: none;
     margin: 0 7px;
+    -webkit-transition: 0.3s;
     transition: 0.3s;
 }
 
@@ -193,6 +192,7 @@ nav a:hover {
     justify-content: center;
     overflow: hidden;
     box-shadow: 0 0 10px #4eddfd;
+    -webkit-transition: 0.5s;
     transition: 0.5s;
 }
 
@@ -203,6 +203,8 @@ nav a:hover {
 .hero-img img {
     position: absolute;
     width: 85%;
+    height: auto;
+    object-fit: cover;
     mix-blend-mode: lighten;
 }
 
@@ -226,11 +228,13 @@ nav a:hover {
 .info-sec h1 {
     font-size: 55px;
     text-transform: uppercase;
+    color: #4acfee; /* Fallback */
     background: linear-gradient(to right, #4acfee, #53f8c9, #6070fd, #5bbdff, #4acfee);
     background-size: 200%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    -webkit-animation: animate-gradient 2.5s linear infinite;
     animation: animate-gradient 2.5s linear infinite;
     margin-right: 10px;
 }
@@ -240,7 +244,7 @@ nav a:hover {
     font-size: 20px;
 }
 
-@media (min-width: 122px) {
+@media (min-width: 981px) {
     body {
         width: 100%;
         height: 100vh;
@@ -252,50 +256,151 @@ nav a:hover {
     }
 }
 
+.menu-icon {
+    display: none;
+    color: white;
+    font-size: 35px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
 @media (max-width: 980px) {
     body {
-        height: fit-content;
-        overflow: auto;
+        height: auto;
+        min-height: 100vh;
+        overflow-x: hidden;
+        padding: 20px 0;
     }
 
-    .main-section nav ul {
-        display: none;
+    .main-section {
+        width: 95%;
+        height: auto;
+        min-height: 90vh;
+        border-radius: 30px;
+        margin: 20px auto;
+        padding-bottom: 40px;
     }
 
-    .Buttons {
+    nav {
+        padding: 20px;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+
+    nav ul {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: #0e1217; /* Fallback */
+        background: rgba(14, 18, 23, 0.95);
+        -webkit-backdrop-filter: blur(15px);
+        backdrop-filter: blur(15px);
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+        z-index: 1000;
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    nav ul.active {
+        right: 0;
+    }
+
+    nav a {
+        font-size: 24px;
+        margin: 20px 0;
+        padding: 10px;
     }
 
     .hero {
+        flex-direction: column-reverse;
+        height: auto;
+        padding: 40px 5%;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .hero-info {
         display: flex;
         flex-direction: column;
-    }
-
-    .hero-img {
-        width: 400px;
-        height: 400px;
-        margin: 20px 0;
-    }
-}
-
-@media (max-width: 440px) {
-    .nav-logo {
-        font-size: 24px;
-        gap: 10px;
-    }
-
-    .nav-logo img {
-        width: 38px;
-        height: 38px;
-    }
-
-    .hero-img {
-        width: 350px;
+        align-items: center;
     }
 
     .hero h1 {
         font-size: 40px;
+        line-height: 1.2;
+    }
+
+    .hero h2 {
+        font-size: 24px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .hero-img {
+        width: 300px;
+        height: 300px;
+        margin-bottom: 30px;
+    }
+
+    .Buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .btn {
+        margin-right: 0;
+    }
+
+    .info-sec {
+        justify-content: center;
+        padding: 0 5%;
+        margin-top: 50px;
+    }
+
+    .info-card {
+        max-width: 150px;
+    }
+
+    .info-sec h1 {
+        font-size: 40px;
+    }
+
+    .info-sec p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-logo {
+        font-size: 20px;
+    }
+
+    .nav-logo img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .hero-img {
+        width: 250px;
+        height: 250px;
+    }
+
+    .info-card {
+        max-width: 120px;
     }
 }
